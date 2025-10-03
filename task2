@@ -1,1 +1,77 @@
+class Node:
+    # Constructor to create a new node
+    def __init__(self, data):
+        self.data = data  # The data the node will hold
+        self.next = None  # Pointer to the next node in the list
 
+class LinkedList:
+    # Constructor to create an empty linked list
+    def __init__(self):
+        self.head = None  # The list starts with no head node
+
+    # Method to insert a new node at the end of the list
+    def insert_at_end(self, new_data):
+        new_node = Node(new_data)
+        # If the list is empty, the new node becomes the head
+        if self.head is None:
+            self.head = new_node
+            return
+        # Otherwise, traverse to the end of the list
+        last = self.head
+        while last.next:
+            last = last.next
+        # Change the 'next' of the last node to the new node
+        last.next = new_node
+
+    # Method to insert a new node at the beginning of the list
+    def insert_at_beginning(self, new_data):
+        new_node = Node(new_data)
+        # Point the new node's 'next' to the current head
+        new_node.next = self.head
+        # Make the new node the new head of the list
+        self.head = new_node
+
+    # Method to insert a new node after a given previous node
+    def insert_after_node(self, prev_node, new_data):
+        if prev_node is None:
+            print("The given previous node must be in the LinkedList.")
+            return
+        new_node = Node(new_data)
+        # Make the new node's 'next' the same as the previous node's 'next'
+        new_node.next = prev_node.next
+        # Make the previous node's 'next' point to the new node
+        prev_node.next = new_node
+
+    # Method to search for a node with a specific key
+    def search(self, key):
+        current = self.head
+        # Traverse the list while the current node is not None
+        while current:
+            if current.data == key:
+                return True  # Key found
+            current = current.next
+        return False # Key not found
+
+    # Method to print the entire linked list
+    def print_list(self):
+        temp = self.head
+        # Traverse from the head to the end
+        while temp:
+            print(str(temp.data) + " -> ", end="")
+            temp = temp.next
+        print("None")
+
+# --- Driver Code ---
+# Start with an empty list
+llist = LinkedList()
+
+# Insert some nodes
+llist.insert_at_end(1)
+llist.insert_at_beginning(5)
+llist.insert_at_beginning(7)
+llist.insert_at_end(9)
+llist.insert_after_node(llist.head.next, 8) # Insert 8 after 5
+
+# Print the final linked list
+print("Created linked list is:")
+llist.print_list()
